@@ -2,6 +2,10 @@
 
 A SaaS-style timesheet management application built with Vue 3 + PrimeVue.
 
+## Live Demo
+
+https://ticktock-time-management-app.netlify.app/
+
 ## Tech Stack
 
 | Tool | Purpose |
