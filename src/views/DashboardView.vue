@@ -19,6 +19,15 @@
             class="filter-select"
           />
           <Select
+            v-model="filterDateRange"
+            :options="dateRangeOptions"
+            option-label="label"
+            option-value="value"
+            placeholder="Date Range"
+            showClear
+            class="filter-select"
+          />
+          <Select
             v-model="perPage"
             :options="perPageOptions"
             option-label="label"
@@ -111,6 +120,7 @@ const store  = useTimesheetStore()
 
 // ── Filters ─────────────────────────────────────────────────────
 const filterStatus = ref(null)
+const filterDateRange = ref(null)
 const perPage      = ref(5)
 const paginatorFirst = ref(0)
 
@@ -122,6 +132,12 @@ const statusOptions = [
   { label: 'Pending',     value: 'pending' },
 ]
 
+const dateRangeOptions = [
+  { label: 'January 2026', value: '2026-01' },
+  { label: 'February 2026', value: '2026-02' },
+  { label: 'March 2026', value: '2026-03' },
+]
+
 const perPageOptions = [
   { label: '5 per page',  value: 5 },
   { label: '10 per page', value: 10 },
@@ -130,11 +146,23 @@ const perPageOptions = [
 
 // Reset to page 1 when filter changes
 watch(filterStatus, () => { paginatorFirst.value = 0 })
+watch(filterDateRange, () => { paginatorFirst.value = 0 })
 
 // ── Filtered + paginated data ────────────────────────────────────
 const filteredRows = computed(() => {
-  if (!filterStatus.value) return store.timesheets
-  return store.timesheets.filter(t => t.status === filterStatus.value)
+  let filtered = store.timesheets
+
+  // Filter by status
+  if (filterStatus.value) {
+    filtered = filtered.filter(t => t.status === filterStatus.value)
+  }
+
+  // Filter by date range
+  if (filterDateRange.value) {
+    filtered = filtered.filter(t => t.startDate.startsWith(filterDateRange.value))
+  }
+
+  return filtered
 })
 
 const paginatedRows = computed(() => {
