@@ -1,5 +1,66 @@
-# Vue 3 + Vite
+# ticktock — Timesheet Management App
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A SaaS-style timesheet management application built with Vue 3 + PrimeVue.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| Vue 3 (Composition API) | Frontend framework |
+| Vite | Build tool |
+| Pinia | State management |
+| Vue Router | Client-side routing |
+| PrimeVue 4 | UI component library |
+| PrimeIcons | Icon set |
+
+## Getting Started
+
+### Requirements
+- Node.js 18+ (tested on v24)
+- npm 9+
+
+### Install & Run
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start dev server
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173)
+
+### Login credentials
+| Email | Password |
+|-------|----------|
+| john@example.com | password123 |
+| jane@example.com | password123 |
+
+## Project Structure
+
+```
+src/
+├── assets/        # Global CSS
+├── components/    # Reusable components (Navbar, StatusBadge, EntryModal)
+├── data/          # Mock data (simulates API responses)
+├── router/        # Vue Router config + auth guard
+├── stores/        # Pinia stores (auth, timesheets)
+└── views/         # Pages (Login, Dashboard, WeekDetail)
+```
+
+## Features
+- ✅ Login with session persistence (sessionStorage)
+- ✅ Auth route guard (redirects to /login if not authenticated)
+- ✅ Dashboard table view with status badges + pagination
+- ✅ Status filter dropdown
+- ✅ Week detail view with daily grouped entries
+- ✅ Add / Edit / Delete timesheet entries
+- ✅ Form validation with error messages
+- ✅ Responsive layout (mobile friendly)
+- ✅ Toast notifications
+
+## Assumptions
+- Authentication is mocked (no real backend) — session stored in sessionStorage
+- All data is in-memory — changes reset on page refresh (by design for this assessment)
+- The `date` field for new entries defaults to today's date
