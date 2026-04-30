@@ -135,114 +135,76 @@ async function handleSubmit() {
 
 <style scoped>
 .login-page {
-  display: flex;
-  min-height: 100vh;
+  @apply flex min-h-screen;
 }
 
 /* ── Left panel ───────────────────────── */
 .login-left {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  padding: 40px 24px;
+  @apply flex-1 flex items-center justify-center bg-white p-10 px-6;
 }
 
 .login-form-wrap {
-  width: 100%;
-  max-width: 340px;
+  @apply w-full max-w-sm;
 }
 
 .login-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 28px;
+  @apply text-xl font-bold text-slate-800 mb-7;
 }
 
 .field {
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  @apply mb-4 flex flex-col gap-1.5;
 }
 
 .field label {
-  font-size: 13px;
-  font-weight: 500;
-  color: #374151;
+  @apply text-sm font-medium text-gray-700;
 }
 
 .field-error {
-  color: #dc2626;
-  font-size: 12px;
+  @apply text-red-600 text-xs;
 }
 
 .field-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
+  @apply flex items-center gap-2 mb-5;
 }
 
 .field-checkbox label {
-  font-size: 13px;
-  color: #374151;
-  cursor: pointer;
+  @apply text-sm text-gray-700 cursor-pointer;
 }
 
 .auth-error {
-  margin-bottom: 16px;
+  @apply mb-4;
 }
 
 .sign-in-btn {
-  background: #2563eb !important;
-  border-color: #2563eb !important;
-  font-weight: 600 !important;
-  padding: 10px !important;
+  @apply bg-blue-600 border-blue-600 font-semibold py-2.5;
 }
 
 .login-hint {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #94a3b8;
-  text-align: center;
+  @apply mt-5 text-xs text-slate-400 text-center;
 }
 
 /* ── Right panel ──────────────────────── */
 .login-right {
-  flex: 1;
-  background: #2563eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 40px;
+  @apply flex-1 bg-blue-600 flex items-center justify-center p-12 px-10;
 }
 
 .brand-content {
-  max-width: 360px;
-  color: #fff;
+  @apply max-w-sm text-white;
 }
 
 .brand-name {
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  letter-spacing: -0.5px;
+  @apply text-4xl font-bold mb-5 -tracking-wide;
 }
 
 .brand-desc {
-  font-size: 14px;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.85);
+  @apply text-sm leading-relaxed text-blue-100;
 }
 
 /* ── Responsive ───────────────────────── */
 @media (max-width: 700px) {
-  .login-page    { flex-direction: column; }
-  .login-right   { padding: 40px 24px; min-height: 260px; }
-  .login-left    { padding: 40px 24px; }
-  .brand-name    { font-size: 28px; }
+  .login-page    { @apply flex-col; }
+  .login-right   { @apply p-10 px-6 min-h-64; }
+  .login-left    { @apply p-10 px-6; }
+  .brand-name    { @apply text-2xl; }
 }
 </style>

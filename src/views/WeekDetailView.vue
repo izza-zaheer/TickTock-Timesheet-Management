@@ -62,10 +62,10 @@
                   <span class="entry-hours">{{ entry.hours }} hrs</span>
                   <span class="entry-tag">{{ entry.typeOfWork }}</span>
                   <div class="entry-menu-wrap">
-                    <button class="entry-menu-btn" @click="toggleEntryMenu(entry.id)">
+                    <button class="entry-menu-btn" @click="toggleEntryMenu(entry.id, $event)">
                       <i class="pi pi-ellipsis-v"></i>
                     </button>
-                    <div class="entry-menu" v-if="openMenuId === entry.id" v-click-outside="closeMenu">
+                    <div class="entry-menu" v-if="openMenuId === entry.id" v-click-outside="closeMenuIfClickedOutside">
                       <button class="entry-menu-item" @click="editEntry(entry)">
                         <i class="pi pi-pencil"></i> Edit
                       </button>
@@ -170,10 +170,19 @@ function editEntry(entry) {
 
 // ── Context menu ────────────────────────────────────────────────
 const openMenuId = ref(null)
-function toggleEntryMenu(id) {
-  console.log(id);
-   openMenuId.value = openMenuId.value === id ? null : id }
+function toggleEntryMenu(id, event) {
+  event.stopPropagation()
+  openMenuId.value = openMenuId.value === id ? null : id
+}
 function closeMenu() { openMenuId.value = null }
+function closeMenuIfClickedOutside(event) {
+  // Check if click was on any entry menu button
+  const buttons = document.querySelectorAll('.entry-menu-btn')
+  for (let btn of buttons) {
+    if (btn.contains(event.target)) return
+  }
+  closeMenu()
+}
 
 // ── Delete ──────────────────────────────────────────────────────
 function confirmDelete(entry) {
@@ -204,201 +213,102 @@ onMounted(() => store.fetchEntries(weekId))
 
 <style scoped>
 .back-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 13px;
-  color: #64748b;
-  cursor: pointer;
-  margin-bottom: 20px;
-  padding: 4px 0;
+  @apply flex items-center gap-1.5 bg-none border-none text-sm text-slate-500 cursor-pointer mb-5 py-1;
+  font: inherit;
 }
-.back-btn:hover { color: #1e293b; }
+.back-btn:hover { @apply text-slate-800; }
 
 .loading-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 60px;
+  @apply flex justify-center py-16;
 }
 
 /* ── Week header ───────────────────────── */
 .week-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 16px;
+  @apply flex items-center justify-between p-5 px-6 mb-4 flex-wrap gap-4;
 }
 
 .week-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 4px;
+  @apply text-lg font-bold text-slate-800 mb-1;
 }
 
 .week-dates {
-  font-size: 13px;
-  color: #64748b;
+  @apply text-sm text-slate-500;
 }
 
 .week-header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  @apply flex items-center gap-4 flex-wrap;
 }
 
-.hours-info { display: flex; flex-direction: column; gap: 6px; min-width: 160px; }
-.hours-label { font-size: 13px; font-weight: 600; color: #1e293b; text-align: right; }
-.hours-bar { width: 160px; height: 8px; border-radius: 4px; }
+.hours-info { @apply flex flex-col gap-1.5; min-width: 10rem; }
+.hours-label { @apply text-sm font-semibold text-slate-800 text-right; }
+.hours-bar { @apply w-40 h-4 rounded; }
 
 /* ── Day groups ───────────────────────── */
-.days-list { overflow: hidden; }
+.days-list { @apply overflow-hidden; }
 
-.day-group { padding: 20px 24px; }
-.day-group--bordered { border-bottom: 1px solid #e2e8f0; }
+.day-group { @apply p-5 px-6; }
+.day-group--bordered { @apply border-b border-slate-200; }
 
 .day-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1e293b;
-  margin-bottom: 12px;
+  @apply text-sm font-semibold text-slate-800 mb-3;
 }
 
-.entries-list { display: flex; flex-direction: column; gap: 0; }
+.entries-list { @apply flex flex-col gap-0; }
 
 .entry-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #f1f5f9;
+  @apply flex items-center justify-between py-2.5 border-b border-slate-100;
 }
-.entry-row:last-child { border-bottom: none; }
+.entry-row:last-child { @apply border-b-0; }
 
 .entry-desc {
-  font-size: 13px;
-  color: #1e293b;
-  flex: 1;
+  @apply text-sm text-slate-800 flex-1;
 }
 
 .entry-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  @apply flex items-center gap-2.5;
 }
 
 .entry-hours {
-  font-size: 13px;
-  color: #64748b;
-  min-width: 40px;
-  text-align: right;
+  @apply text-sm text-slate-500 min-w-10 text-right;
 }
 
 .entry-tag {
-  font-size: 11px;
-  background: #eff6ff;
-  color: #2563eb;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: 500;
-  white-space: nowrap;
+  @apply text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-medium whitespace-nowrap;
 }
 
 /* ── Entry context menu ───────────────── */
-.entry-menu-wrap { position: relative; }
+.entry-menu-wrap { @apply relative; }
 
 .entry-menu-btn {
-  width: 28px;
-  height: 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #94a3b8;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply w-7 h-7 bg-none border-none cursor-pointer text-slate-400 rounded hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center;
 }
-.entry-menu-btn:hover { background: #f1f5f9; color: #475569; }
 
 .entry-menu {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 4px);
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  min-width: 130px;
-  z-index: 50;
-  overflow: hidden;
+  @apply absolute right-0 top-5 bg-white border border-slate-200 rounded-md shadow-lg z-50 overflow-hidden;
+  min-width: 8rem;
 }
 
 .entry-menu-item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 14px;
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  text-align: left;
-  color: #374151;
+  @apply w-full flex items-center gap-2 p-2.5 px-3.5 bg-none border-none text-sm cursor-pointer text-left text-gray-700;
+  font: inherit;
 }
-.entry-menu-item:hover { background: #f8fafc; }
-.entry-menu-item--danger { color: #dc2626; }
-.entry-menu-item--danger:hover { background: #fef2f2; }
+.entry-menu-item:hover { @apply bg-slate-50; }
+.entry-menu-item--danger { @apply text-red-600; }
+.entry-menu-item--danger:hover { @apply bg-red-50; }
 
 /* ── Add task ─────────────────────────── */
 .add-task-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #eff6ff;
-  border: 1px dashed #93c5fd;
-  border-radius: 6px;
-  color: #2563eb;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 14px;
-  cursor: pointer;
-  margin-top: 12px;
-  width: 100%;
-  justify-content: center;
-  transition: background 0.15s;
+  @apply flex items-center gap-1.5 bg-blue-50 border border-dashed border-blue-300 rounded-md text-blue-600 text-sm font-medium p-2 px-3.5 cursor-pointer mt-3 w-full justify-center transition-colors duration-150 hover:bg-blue-100;
+  font: inherit;
 }
-.add-task-btn:hover { background: #dbeafe; }
 
 /* ── Empty week ───────────────────────── */
 .empty-week {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 60px 24px;
-  text-align: center;
-  color: #64748b;
+  @apply flex flex-col items-center justify-center gap-4 p-16 px-6 text-center text-slate-500;
 }
 
 /* ── Footer ───────────────────────────── */
 .page-footer {
-  text-align: center;
-  font-size: 12px;
-  color: #94a3b8;
-  padding: 24px;
-  border-top: 1px solid #e2e8f0;
-  margin-top: 40px;
+  @apply text-center text-xs text-slate-400 py-6 border-t border-slate-200 mt-10;
 }
 </style>

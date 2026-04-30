@@ -175,63 +175,31 @@ async function handleSubmit() {
 </script>
 
 <style scoped>
-.entry-form { display: flex; flex-direction: column; gap: 2px; }
+.entry-form { @apply flex flex-col gap-0.5; }
 
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 14px;
+  @apply flex flex-col gap-1.5 mb-3.5;
 }
 
 .field label {
-  font-size: 13px;
-  font-weight: 500;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  @apply text-sm font-medium text-gray-700 flex items-center gap-1;
 }
 
-.required { color: #dc2626; }
-.field-icon { color: #94a3b8; font-size: 12px; }
-.field-hint { font-size: 11px; color: #94a3b8; }
-.field-error { font-size: 12px; color: #dc2626; }
+.required { @apply text-red-600; }
+.field-icon { @apply text-slate-400 text-xs; }
+.field-hint { @apply text-xs text-slate-400; }
+.field-error { @apply text-xs text-red-600; }
 
 /* ── Hours stepper ──────────────── */
 .hours-stepper {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  overflow: hidden;
-  width: fit-content;
+  @apply flex items-center gap-0 border border-gray-300 rounded-md overflow-hidden w-fit;
 }
 
 .step-btn {
-  width: 36px;
-  height: 36px;
-  background: #f8fafc;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
+  @apply w-9 h-9 bg-slate-50 border-none cursor-pointer text-xs text-gray-700 flex items-center justify-center transition-colors duration-150 hover:bg-slate-200;
 }
-.step-btn:hover { background: #e2e8f0; }
 
 .hours-value {
-  min-width: 48px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1e293b;
-  border-left: 1px solid #d1d5db;
-  border-right: 1px solid #d1d5db;
-  padding: 8px 4px;
+  @apply min-w-12 text-center text-sm font-semibold text-slate-800 border-l border-r border-gray-300 py-2 px-1;
 }
 </style>

@@ -12,6 +12,7 @@ A SaaS-style timesheet management application built with Vue 3 + PrimeVue.
 | Vue Router | Client-side routing |
 | PrimeVue 4 | UI component library |
 | PrimeIcons | Icon set |
+| **Tailwind CSS** | **Utility-first CSS framework** |
 
 ## Getting Started
 
@@ -41,7 +42,7 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ```
 src/
-├── assets/        # Global CSS
+├── assets/        # Global CSS (Tailwind directives + custom styles)
 ├── components/    # Reusable components (Navbar, StatusBadge, EntryModal)
 ├── data/          # Mock data (simulates API responses)
 ├── router/        # Vue Router config + auth guard
@@ -57,7 +58,7 @@ src/
 - ✅ Week detail view with daily grouped entries
 - ✅ Add / Edit / Delete timesheet entries
 - ✅ Form validation with error messages
-- ✅ Responsive layout (mobile friendly)
+- ✅ **Responsive layout with Tailwind CSS**
 - ✅ Toast notifications
 
 ## Assumptions

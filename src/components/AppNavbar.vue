@@ -20,7 +20,7 @@
         </button>
 
         <!-- Dropdown -->
-        <div class="user-dropdown" v-if="menuOpen" v-click-outside="closeMenu">
+        <div class="user-dropdown" v-if="menuOpen" v-click-outside="closeMenuIfClickedOutside">
           <div class="dropdown-header">
             <span class="dropdown-name">{{ user?.name }}</span>
             <span class="dropdown-email">{{ user?.email }}</span>
@@ -49,12 +49,21 @@ const initials = computed(() => {
   return user.value.name.split(' ').map(n => n[0]).join('').toUpperCase()
 })
 
-const menuOpen = ref(true)
-function toggleMenu() {
-  menuOpen.value = !menuOpen.value;
-  console.log("toggle", menuOpen.value);
+const menuOpen = ref(false)
+function toggleMenu(event) {
+  event.stopPropagation()
+  menuOpen.value = !menuOpen.value
 }
-function closeMenu() { menuOpen.value = false }
+function closeMenu() { 
+  menuOpen.value = false 
+}
+function closeMenuIfClickedOutside(event) {
+  // Don't close if click was on the user button
+  if (userBtn.value && userBtn.value.contains(event.target)) {
+    return
+  }
+  closeMenu()
+}
 
 function handleLogout() {
   authStore.logout()
@@ -77,161 +86,91 @@ const vClickOutside = {
 
 <style scoped>
 .navbar {
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  @apply bg-white border-b border-slate-200 sticky top-0 z-50;
 }
 
 .navbar-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 24px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
+  @apply max-w-7xl mx-auto px-6 h-14 flex items-center gap-6;
 }
 
 .navbar-logo {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1e293b;
-  text-decoration: none;
-  letter-spacing: -0.3px;
-  flex-shrink: 0;
+  @apply text-lg font-bold text-slate-800 no-underline -tracking-wide shrink-0;
 }
 
 .navbar-nav {
-  display: flex;
-  gap: 4px;
+  @apply flex gap-1;
 }
 
 .nav-link {
-  font-size: 14px;
-  font-weight: 500;
-  color: #64748b;
-  text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: color 0.15s, background 0.15s;
+  @apply text-sm font-medium text-slate-500 no-underline py-1.5 px-3 rounded-md transition-colors duration-150;
 }
 
 .nav-link:hover,
 .nav-link--active {
-  color: #1e293b;
-  background: #f1f5f9;
+  @apply text-slate-800 bg-slate-100;
 }
 
 .navbar-user {
-  margin-left: auto;
-  position: relative;
+  @apply ml-auto relative;
 }
 
 .user-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-family: inherit;
-  transition: background 0.15s;
+  @apply flex items-center gap-2 bg-none border-none cursor-pointer py-1.5 px-2 rounded-md transition-colors duration-150;
+  font: inherit;
 }
 
 .user-btn:hover {
-  background: #f1f5f9;
+  @apply bg-slate-100;
 }
 
 .user-avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #2563eb;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply w-8 h-8 rounded-full bg-blue-600 text-white text-xs font-semibold flex items-center justify-center;
 }
 
 .user-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1e293b;
+  @apply text-sm font-medium text-slate-800;
 }
 
 .user-chevron {
-  font-size: 11px;
-  color: #94a3b8;
+  @apply text-xs text-slate-400;
 }
 
 /* ── Dropdown ──────────────────────────── */
 .user-dropdown {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  min-width: 200px;
-  z-index: 200;
-  overflow: hidden;
+  @apply absolute right-0 top-5 bg-white border border-slate-200 rounded-lg shadow-lg z-50 overflow-hidden;
+  min-width: 12.5rem;
 }
 
 .dropdown-header {
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  @apply p-3 px-4 flex flex-col gap-0.5;
 }
 
 .dropdown-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1e293b;
+  @apply text-sm font-semibold text-slate-800;
 }
 
 .dropdown-email {
-  font-size: 12px;
-  color: #94a3b8;
+  @apply text-xs text-slate-400;
 }
 
 .dropdown-divider {
-  border: none;
-  border-top: 1px solid #e2e8f0;
-  margin: 0;
+  @apply border-none border-t border-slate-200 m-0;
 }
 
 .dropdown-item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.15s;
+  @apply w-full flex items-center gap-2 p-2.5 px-4 bg-none border-none text-sm cursor-pointer text-left transition-colors duration-150;
+  font: inherit;
 }
 
 .dropdown-item:hover {
-  background: #f8fafc;
+  @apply bg-slate-50;
 }
 
 .dropdown-item--danger {
-  color: #dc2626;
+  @apply text-red-600;
 }
 
 .dropdown-item--danger:hover {
-  background: #fef2f2;
+  @apply bg-red-50;
 }
 </style>

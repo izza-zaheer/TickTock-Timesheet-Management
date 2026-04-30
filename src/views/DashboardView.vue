@@ -38,7 +38,7 @@
           size="small"
         >
           <!-- Week # -->
-          <Column field="weekNumber" header="WEEK #" sortable style="width:100px">
+          <Column field="weekNumber" header="WEEK #" sortable style="width:auto">
             <template #body="{ data }">
               <span class="week-num">{{ data.weekNumber }}</span>
             </template>
@@ -52,7 +52,7 @@
           </Column>
 
           <!-- Status -->
-          <Column field="status" header="STATUS" sortable style="width:160px">
+          <Column field="status" header="STATUS" sortable style="width:auto">
             <template #body="{ data }">
               <StatusBadge :status="data.status" />
             </template>
@@ -161,66 +161,91 @@ onMounted(() => {
 
 <style scoped>
 .page-header {
-  margin-bottom: 24px;
+  @apply mb-8 animate-[slideDown_0.3s_ease-out];
 }
 
 .page-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 16px;
+  @apply text-3xl font-extrabold text-slate-900 mb-5 -tracking-wide;
 }
 
 .filters-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  @apply flex items-center gap-2.5 flex-wrap bg-slate-50 p-4 rounded-lg border border-slate-200;
 }
 
 .filter-select {
-  min-width: 140px;
+  @apply min-w-[10rem];
 }
 
 .table-card {
-  overflow: hidden;
+  @apply overflow-hidden animate-[slideUp_0.3s_ease-out];
 }
 
 .week-num {
-  font-weight: 600;
-  color: #1e293b;
+  @apply font-bold text-blue-600 text-sm;
 }
 
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px;
-  color: #94a3b8;
-  gap: 12px;
+  @apply flex flex-col items-center justify-center p-16 px-6 text-slate-400 gap-4;
 }
 
 .empty-icon {
-  font-size: 32px;
+  @apply text-5xl opacity-60;
+}
+
+.empty-state p {
+  @apply text-sm font-medium;
 }
 
 .table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-top: 1px solid #e2e8f0;
+  @apply flex items-center justify-between p-4 border-t border-slate-200 bg-slate-50;
 }
 
 .per-page-label {
-  font-size: 13px;
-  color: #64748b;
+  @apply text-xs text-slate-500 font-medium;
 }
 
 .table-paginator {
-  border: none !important;
-  background: transparent !important;
-  padding: 0 !important;
+  @apply border-none bg-transparent p-0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-title {
+    @apply text-2xl;
+  }
+
+  .filters-row {
+    @apply flex-col items-stretch;
+  }
+
+  .filter-select {
+    @apply min-w-0 w-full;
+  }
+
+  .table-footer {
+    @apply flex-col gap-3 text-center;
+  }
 }
 </style>
