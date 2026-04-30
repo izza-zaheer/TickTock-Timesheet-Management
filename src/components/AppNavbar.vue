@@ -42,6 +42,7 @@ import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const userBtn = ref(null)
 
 const user = computed(() => authStore.currentUser)
 const initials = computed(() => {
@@ -74,7 +75,7 @@ function handleLogout() {
 const vClickOutside = {
   mounted(el, binding) {
     el._clickOutsideHandler = (e) => {
-      if (!el.contains(e.target)) binding.value()
+      if (!el.contains(e.target)) binding.value(e)
     }
     document.addEventListener('click', el._clickOutsideHandler)
   },

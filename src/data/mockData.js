@@ -1,6 +1,6 @@
 // ── Users ──────────────────────────────────────────────────────
 export const MOCK_USERS = [
-  { id: 'user-1', name: 'Izza Zaheer',   email: 'izza@gmail.com', password: 'izza1224' },
+  { id: 'user-1', name: 'Izza Zaheer',   email: 'izza@example.com', password: 'password123' },
   { id: 'user-2', name: 'Jane Smith', email: 'jane@example.com', password: 'password123' },
 ]
 

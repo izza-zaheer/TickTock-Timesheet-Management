@@ -59,7 +59,7 @@
         </form>
 
         <p class="login-hint">
-          Demo: <strong>john@example.com</strong> / <strong>password123</strong>
+          Demo: <strong>izza@example.com</strong> / <strong>password123</strong>
         </p>
       </div>
     </div>
@@ -174,7 +174,6 @@ async function handleSubmit() {
 .auth-error {
   @apply mb-4;
 }
-
 .sign-in-btn {
   @apply bg-blue-600 border-blue-600 font-semibold py-2.5;
 }

@@ -138,8 +138,16 @@ const store   = useTimesheetStore()
 const confirm = useConfirm()
 const toast   = useToast()
 
-const weekId  = route.params.weekId
-const week    = computed(() => getTimesheetById(weekId))
+const weekId   = route.params.weekId
+const baseWeek = computed(() => getTimesheetById(weekId))
+const week     = computed(() => {
+  if (!baseWeek.value) return null
+  const totalHours = store.entries.reduce((sum, entry) => sum + Number(entry.hours || 0), 0)
+  return {
+    ...baseWeek.value,
+    totalHours,
+  }
+})
 
 // ── Group entries by date ───────────────────────────────────────
 const groupedEntries = computed(() => {
@@ -202,7 +210,7 @@ function confirmDelete(entry) {
 // ── click-outside directive ─────────────────────────────────────
 const vClickOutside = {
   mounted(el, binding) {
-    el._handler = (e) => { if (!el.contains(e.target)) binding.value() }
+    el._handler = (e) => { if (!el.contains(e.target)) binding.value(e) }
     document.addEventListener('click', el._handler)
   },
   unmounted(el) { document.removeEventListener('click', el._handler) }
