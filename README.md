@@ -1,6 +1,6 @@
 # ticktock — Timesheet Management App
 
-A SaaS-style timesheet management application built with Vue 3 + PrimeVue.
+A SaaS-style timesheet management application built with Vue 3 + PrimeVue. 
 
 ## Live Demo
 
